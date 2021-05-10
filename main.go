@@ -15,7 +15,7 @@ import (
 	"github.com/mkatychev/go-httpbin/httpbin"
 )
 
-const defaultHost = "0.0.0.0"
+const defaultHost = "localhost"
 const defaultPort = 8080
 
 var (
@@ -58,8 +58,11 @@ func main() {
 	listenAddr := net.JoinHostPort(host, strconv.Itoa(port))
 
 	server := &http.Server{
-		Addr:    listenAddr,
-		Handler: h.Handler(httpbin.HandleFunc("/example", unsortedStrings, "GET")),
+		Addr: listenAddr,
+		Handler: h.Handler(
+			httpbin.HandleFunc("/unsorted/", noOrderArray, "GET"),
+			// httpbin.HandleFunc("/unsorted_obj", unsortedWithObject),
+		),
 	}
 
 	// shutdownCh triggers graceful shutdown on SIGINT or SIGTERM
