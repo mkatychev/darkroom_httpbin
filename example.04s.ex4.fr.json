@@ -1,0 +1,24 @@
+{
+  "protocol": "HTTP",
+  "request": {
+    "uri": "GET /examples/4",
+    "entrypoint": "http://localhost:8080"
+  },
+  "response": {
+    "validation": {
+      "'response'.'body'.'two'.'other_key'": {
+        "partial": true
+      }
+    },
+    "body": {
+      "one": "one",
+      "two": {
+        "key": "value",
+        "other_key": {
+          "desired_value": "here"
+        }
+      }
+    },
+    "status": 200
+  }
+}

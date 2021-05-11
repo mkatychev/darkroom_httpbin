@@ -1,0 +1,16 @@
+{
+  "protocol": "HTTP",
+  "request": {
+    "uri": "GET /examples/1",
+    "entrypoint": "http://localhost:8080"
+  },
+  "response": {
+    "validation": {
+      "'response'.'body'": {
+        "unordered": true
+      }
+    },
+    "body": ["one", "two", "three", "four"],
+    "status": 200
+  }
+}

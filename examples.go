@@ -6,7 +6,7 @@ import (
 	"strings"
 )
 
-func returnCollection(ex string) map[string]interface{} {
+func returnCollection(ex string) interface{} {
 	var collection map[string]interface{}
 	switch ex {
 	case "1":
@@ -39,43 +39,43 @@ func returnCollection(ex string) map[string]interface{} {
 			"three": object2,
 			"four":  "four",
 		}
+	case "4":
+		object1 := map[string]interface{}{
+			"key": "value",
+			"other_key": map[string]interface{}{
+				"other_value":   "stuff",
+				"desired_value": "here",
+			},
+		}
+		collection = map[string]interface{}{
+			"one": "one",
+			"two": object1,
+		}
 
+	}
+
+	returnArray := false
+	for _, v := range []string{"1", "2", "3"} {
+		if ex == v {
+			returnArray = true
+		}
+	}
+	if returnArray {
+		mapStrings := []interface{}{}
+		for _, v := range collection {
+			mapStrings = append(mapStrings, v)
+		}
+		return mapStrings
 	}
 	return collection
 }
 
-func noOrderArray(w http.ResponseWriter, r *http.Request) {
+func examples(w http.ResponseWriter, r *http.Request) {
 	parts := strings.Split(r.URL.Path, "/")
 
-	mapStrings := []interface{}{}
-	println(parts)
+	collection := returnCollection(parts[len(parts)-1])
 
-	for _, v := range returnCollection(parts[len(parts)-1]) {
-		mapStrings = append(mapStrings, v)
-	}
-
-	b, _ := json.Marshal(mapStrings)
-
-	w.Write(b)
-}
-
-func unsortedWithObject(w http.ResponseWriter, r *http.Request) {
-	object := map[string]string{
-		"key": "value",
-	}
-	collection := map[string]interface{}{
-		"one":   "one",
-		"two":   object,
-		"three": "three",
-		"four":  "four",
-	}
-	mapStrings := []interface{}{}
-
-	for _, v := range collection {
-		mapStrings = append(mapStrings, v)
-	}
-
-	b, _ := json.Marshal(mapStrings)
+	b, _ := json.Marshal(collection)
 
 	w.Write(b)
 }

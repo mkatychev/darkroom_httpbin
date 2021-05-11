@@ -60,7 +60,7 @@ func main() {
 	server := &http.Server{
 		Addr: listenAddr,
 		Handler: h.Handler(
-			httpbin.HandleFunc("/unsorted/", noOrderArray, "GET"),
+			httpbin.HandleFunc("/examples/", examples, "GET"),
 			// httpbin.HandleFunc("/unsorted_obj", unsortedWithObject),
 		),
 	}
